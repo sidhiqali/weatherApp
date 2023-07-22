@@ -8,7 +8,6 @@ const Weather = () => {
   const apikey: string = import.meta.env.VITE_API_KEY;
   const { setWeather, weather } = useContext(WeatherContext);
   const [location, setLocation] = useState('');
-  const [pressedEnter, setPressedEnter] = useState(false);
 
   const navigate = useNavigate();
   const fetchCordinationData = async (latitude: number, longitude: number) => {
@@ -75,7 +74,7 @@ const Weather = () => {
 
   return (
     <div className='flex items-center justify-center min-h-screen bg-blue'>
-      <div className='bg-white  w-96 rounded-md shadow-sm shadow-slate-500'>
+      <div className='bg-white mx-10 w-96 rounded-md shadow-sm shadow-slate-500'>
         <div className='flex px-6 py-4 items-start text-blue font-semibold text-lg'>
           Weather App
         </div>
