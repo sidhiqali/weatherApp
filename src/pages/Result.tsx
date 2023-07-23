@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { IoArrowBack } from 'react-icons/io5';
 import { BsThermometerSun } from 'react-icons/bs';
 import { PiDropHalfFill } from 'react-icons/pi';
@@ -8,6 +8,14 @@ import { WeatherContext } from '../context/Context';
 const Result = () => {
   const navigate = useNavigate();
   const { weather } = useContext(WeatherContext);
+  console.log(weather);
+
+  //when refresh redirect to landing page because weather data will be null
+  useEffect(() => {
+    if (weather === null) {
+      navigate('/');
+    }
+  }, [weather, navigate]);
 
   return (
     <div className='flex items-center justify-center min-h-screen bg-blue'>
