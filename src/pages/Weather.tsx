@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { WeatherContext } from '../context/Context';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
@@ -8,63 +8,58 @@ const Weather = () => {
   const apikey: string = import.meta.env.VITE_API_KEY;
   const { setWeather, weather } = useContext(WeatherContext);
   const [location, setLocation] = useState('');
-
-  const navigate = useNavigate();
-  const fetchCordinationData = async (latitude: number, longitude: number) => {
-    try {
-      let result;
-      if (latitude && longitude) {
-        result = await axios.get(
-          `https://api.openweathermap.org/data/2.5/weather?appid=${apikey}&units=metric&lat=${latitude}&lon=${longitude}`
-        );
-      }
-      setWeather(result?.data);
-    } catch (error: any) {
-      console.log(error);
-      toast.error(error?.response?.data?.message || 'An error occurred');
-    }
-  };
-
   const [loading, setLoading] = useState(false);
 
-  const fetchLocationData = async () => {
+  const navigate = useNavigate();
+
+  //fetching weather data based on coordination or Location
+  const fetchData = async (url: string) => {
     try {
-      setLoading(true); // Set loading state to true before fetching
-      let result;
-      if (location) {
-        result = await axios.get(
-          `https://api.openweathermap.org/data/2.5/weather?appid=${apikey}&units=metric&q=${location}`
-        );
-      }
+      setLoading(true);
+      const result = await axios.get(url);
       setWeather(result?.data);
       setLoading(false);
-      if (!loading) {
-        navigate('/result');
-      }
+      return result?.data;
     } catch (error: any) {
       console.log(error);
+      setLoading(false);
       toast.error(error?.response?.data?.message || 'An error occurred');
-      setLoading(false); // Set loading state to false on error
     }
   };
 
   console.log(weather);
 
+  //searching based on Location Input
+
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setWeather(null);
-    await fetchLocationData();
+    const url = `https://api.openweathermap.org/data/2.5/weather?appid=${apikey}&units=metric&q=${location}`;
+    try {
+      const data = await fetchData(url);
+      if (data) {
+        navigate('/result');
+      }
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || 'An error occurred');
+    }
   };
 
+  //searching with data get from device coordinates
   const getLocation = async () => {
     setWeather(null);
     try {
       const position = await getDeviceLocation();
       const { latitude, longitude } = position.coords;
       console.log(latitude, longitude);
-      if (latitude && longitude) {
-        await fetchCordinationData(latitude, longitude);
-        navigate('/result');
+      const url = `https://api.openweathermap.org/data/2.5/weather?appid=${apikey}&units=metric&lat=${latitude}&lon=${longitude}`;
+      try {
+        const data = await fetchData(url);
+        if (data) {
+          navigate('/result');
+        }
+      } catch (error: any) {
+        toast.error(error?.response?.data?.message || 'An error occurred');
       }
     } catch (error) {
       console.error('Error getting device location:', error);
@@ -106,7 +101,7 @@ const Weather = () => {
               className=' my-5 flex w-full justify-center  text-white items-center border h-12 rounded-md bg-blue px-3 py-1.5  font-semibold'
               type='submit'
             >
-              Get Device Location
+              {loading ? 'Fetching....' : 'Get Device Location'}
             </button>
           </div>
         </div>

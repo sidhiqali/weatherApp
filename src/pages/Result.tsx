@@ -8,14 +8,13 @@ import { WeatherContext } from '../context/Context';
 const Result = () => {
   const navigate = useNavigate();
   const { weather } = useContext(WeatherContext);
+
   return (
     <div className='flex items-center justify-center min-h-screen bg-blue'>
       <div className='bg-white mx-10 w-96 rounded-md shadow-sm shadow-slate-500'>
         <div className='flex px-6 py-4 items-center justify-start  text-blue font-semibold text-lg'>
           <div
-            onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
-              navigate('/')
-            }
+            onClick={() => navigate('/')}
             className='mr-2 cursor-pointer hover:bg-slate-200 rounded-full'
           >
             <IoArrowBack />

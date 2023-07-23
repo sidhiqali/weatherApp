@@ -37,3 +37,8 @@ export interface Weather {
       speed: number;
     };
   }
+
+  export interface WeatherContextProps {
+    weather: Weather | null;
+    setWeather: React.Dispatch<React.SetStateAction<Weather | null>>;
+  }
