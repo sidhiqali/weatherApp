@@ -10,9 +10,12 @@ The Weather App is a simple web application that allows users to search for weat
 
 ## Screenshots
 
+Landing Page
+
 ![Landing Page](https://raw.githubusercontent.com/sidhiqali/weatherApp/dbf62e2912b5afb29b81a8fffe88719fb3cacd06/src/assets/page.png)
 
 Result Page
+
 ![Result Page](https://raw.githubusercontent.com/sidhiqali/weatherApp/dbf62e2912b5afb29b81a8fffe88719fb3cacd06/src/assets/result.png)
 
 ## Features
