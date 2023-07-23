@@ -1,27 +1,61 @@
-# React + TypeScript + Vite
+# Weather App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## LIVE DEMO
 
-Currently, two official plugins are available:
+- [weatherAPP](https://weatherfetching.netlify.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Description
 
-## Expanding the ESLint configuration
+The Weather App is a simple web application that allows users to search for weather information for a specific location or use their current location to get weather details. The app provides temperature, humidity, and other relevant weather data for the searched location.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Screenshots
 
-- Configure the top-level `parserOptions` property like this:
+![Landing Page](https://raw.githubusercontent.com/sidhiqali/weatherApp/dbf62e2912b5afb29b81a8fffe88719fb3cacd06/src/assets/page.png)
+![Result Page](https://raw.githubusercontent.com/sidhiqali/weatherApp/dbf62e2912b5afb29b81a8fffe88719fb3cacd06/src/assets/result.png)
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+## Features
+
+- Search for weather information based on a specific location.
+- Get weather details using the device's current location.
+- Display temperature, humidity, and other relevant weather data for the searched location.
+
+## Installation
+
+To run the Weather App on your local machine, follow these steps:
+
+1. Clone the repository:
+
+```
+git clone https://github.com/sidhiqali/weatherApp.git
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+2. Navigate to the project directory:
+
+```
+cd weatherApp
+```
+
+3. Install the dependencies:
+
+```
+npm install
+```
+
+## Usage
+
+After completing the installation, run the app with the following command:
+
+```
+npm run dev
+```
+
+The app should now be running on your local machine. Open your web browser and go to `http://localhost:5173` to access the Weather App.
+
+## Acknowledgments
+
+- This project uses the [OpenWeather API](https://openweathermap.org/api) to fetch weather data.
+- The Weather App is built with React and uses the React Router for navigation.
+
+## Author
+
+- [SIDHIQ ALI](https://github.com/sidhiqali)
