@@ -1,21 +1,42 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { IoArrowBack } from 'react-icons/io5';
 import { BsThermometerSun } from 'react-icons/bs';
 import { PiDropHalfFill } from 'react-icons/pi';
 import { MdOutlineLocationOn } from 'react-icons/md';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { WeatherContext } from '../context/Context';
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
 const Result = () => {
   const navigate = useNavigate();
-  const { weather } = useContext(WeatherContext);
+  const { weather, setWeather } = useContext(WeatherContext);
+  const [loading, setLoading] = useState(false);
   console.log(weather);
 
+  const { id } = useParams();
+  console.log(id);
+  const apiKey: string = import.meta.env.VITE_API_KEY;
   //when refresh redirect to landing page because weather data will be null
   useEffect(() => {
-    if (weather === null) {
-      navigate('/');
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const result = await axios.get(
+          `https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&units=metric&q=${id}`
+        );
+        setWeather(result?.data);
+        setLoading(false);
+        return result?.data;
+      } catch (error: any) {
+        console.log(error);
+        setLoading(false);
+        toast.error(error?.response?.data?.message || 'An error occurred');
+      }
+    };
+    if (id !== undefined) {
+      fetchData();
     }
-  }, [weather, navigate]);
+  }, [id]);
 
   return (
     <div className='flex items-center justify-center min-h-screen bg-blue'>
@@ -31,7 +52,7 @@ const Result = () => {
         </div>
         <hr />
         <div className='px-6 py-4 flex flex-col items-center justify-center'>
-          <div className='image bg-white '>
+          <div className='image bg-white'>
             <img
               className=' h-36 w-36'
               src={`https://openweathermap.org/img/wn/${weather?.weather[0]?.icon}.png`}

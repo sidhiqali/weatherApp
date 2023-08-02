@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast';
 import getDeviceLocation from '../utils/GeoLocation';
 const Weather = () => {
   const apikey: string = import.meta.env.VITE_API_KEY;
+  const Cities = ['Kerala', 'Bangkok', 'Delhi', 'Palakkad'];
   const { setWeather, weather } = useContext(WeatherContext);
   const [location, setLocation] = useState('');
   const [loading, setLoading] = useState(false);
@@ -31,19 +32,18 @@ const Weather = () => {
 
   //searching based on Location Input
 
-  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setWeather(null);
-    const url = `https://api.openweathermap.org/data/2.5/weather?appid=${apikey}&units=metric&q=${location}`;
-    try {
-      const data = await fetchData(url);
-      if (data) {
-        navigate('/result');
-      }
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message || 'An error occurred');
-    }
-  };
+  // const handleFormSubmit = async (city: string) => {
+  //   setWeather(null);
+  //   const url = `https://api.openweathermap.org/data/2.5/weather?appid=${apikey}&units=metric&q=${city}`;
+  //   try {
+  //     const data = await fetchData(url);
+  //     if (data) {
+  //       navigate(`/${location}`);
+  //     }
+  //   } catch (error: any) {
+  //     toast.error(error?.response?.data?.message || 'An error occurred');
+  //   }
+  // };
 
   //searching with data get from device coordinates
   const getLocation = async () => {
@@ -60,6 +60,7 @@ const Weather = () => {
         }
       } catch (error: any) {
         toast.error(error?.response?.data?.message || 'An error occurred');
+        console.log(error);
       }
     } catch (error) {
       console.error('Error getting device location:', error);
@@ -75,18 +76,19 @@ const Weather = () => {
         </div>
         <hr />
         <div className='px-6 py-4'>
-          <form className='py-3' onSubmit={handleFormSubmit}>
+          <form className='py-3'>
             <div>
-              <input
+              <select
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                  navigate(`/${e.target.value}`)
+                }}
                 className='w-full bg-transparent placeholder-center text-center text-base text-black border-2 border-gray-300 h-12 rounded-md  px-3  focus:border-blue focus:outline-none '
-                name='username'
-                type='text'
-                placeholder='Enter city name'
-                autoComplete='off'
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setLocation(e.target.value)
-                }
-              />
+              >
+                <option value=''>Select Cities</option>
+                {Cities.map((map) => {
+                  return <option>{map}</option>;
+                })}
+              </select>
             </div>
           </form>
           <div className='flex items-center justify-center'>

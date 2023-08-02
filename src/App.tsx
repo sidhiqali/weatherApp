@@ -10,6 +10,7 @@ export default function App() {
       <Routes>
         <Route path='/' element={<Weather />} />
         <Route path='/result' element={<Result />} />
+        <Route path='/:id' element={<Result />} />
       </Routes>
     </WeatherProvider>
   );
